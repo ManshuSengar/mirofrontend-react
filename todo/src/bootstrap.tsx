@@ -1,10 +1,17 @@
-// src/bootstrap.tsx
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import TodoApp from './TodoApp';
 
-const container = document.getElementById('root');
-if (container) {
-  const root = createRoot(container);
+const mount = (el: HTMLElement) => {
+  const root = createRoot(el);
   root.render(<TodoApp />);
+};
+
+if (process.env.NODE_ENV === 'development') {
+  const devRoot = document.getElementById('root');
+  if (devRoot) {
+    mount(devRoot);
+  }
 }
+
+export { mount };

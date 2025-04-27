@@ -1,5 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { ModuleFederationPlugin } = require('webpack').container;
+const path = require('path');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -10,6 +10,7 @@ module.exports = {
   },
   output: {
     publicPath: 'http://localhost:3000/',
+    path: path.resolve(__dirname, 'dist'),
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js', '.json'],
@@ -24,12 +25,17 @@ module.exports = {
     ],
   },
   plugins: [
-    new ModuleFederationPlugin({
+    new (require('webpack').container.ModuleFederationPlugin)({
       name: 'host',
       remotes: {
         todo: 'todo@http://localhost:3001/remoteEntry.js',
         landing: 'landing@http://localhost:3002/remoteEntry.js',
       },
+      shared: {
+        react: { singleton: true, requiredVersion: '^18.2.0' },
+        'react-dom': { singleton: true, requiredVersion: '^18.2.0' },
+        'react-router-dom': { singleton: true, requiredVersion: '^6.14.2' }
+      }
     }),
     new HtmlWebpackPlugin({
       template: './public/index.html',

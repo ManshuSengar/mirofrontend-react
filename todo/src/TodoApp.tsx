@@ -18,13 +18,15 @@ const TodoApp: React.FC = () => {
   return (
     <div>
       <h1>Todo App</h1>
-      <input
-        type="text"
-        value={newTodo}
-        onChange={(e) => setNewTodo(e.target.value)}
-        placeholder="Add a new todo"
-      />
-      <button onClick={addTodo}>Add</button>
+      <div>
+        <input
+          type="text"
+          value={newTodo}
+          onChange={(e) => setNewTodo(e.target.value)}
+          placeholder="Add a new todo"
+        />
+        <button onClick={addTodo}>Add</button>
+      </div>
       <ul>
         {todos.map((todo, index) => (
           <li key={index}>
